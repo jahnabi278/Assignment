@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: GATEWAY-SERVICE
+
+  cloud:
+    gateway:
+      routes:
+        - id: pensioner-detail-service
+          uri: lb://PENSIONER-DETAIL-SERVICE
+          predicates:
+            - Path=/pensioner/**
+#        - id: cancelOrder-service
+#          uri: lb://ORDER-CANCEL-SERVICE
+#          predicates:
+#            - Path=/cancelOrder
+#        - id: payment-service
+#          uri: lb://PAYMENT-SERVICE
+#          predicates:
+#            - Path=/payment/**
+    
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+  instance:
+    hostname: localhost
+    
+    
+server:  port: 8989
