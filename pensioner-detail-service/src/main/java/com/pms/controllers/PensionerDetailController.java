@@ -1,14 +1,10 @@
 package com.pms.controllers;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pms.beans.PensionerDetails;
+import com.pms.result.PensionerResult;
+import com.pms.result.PensionersResult;
 import com.pms.result.Result;
 import com.pms.services.PensionerDetailService;
 
@@ -35,14 +33,13 @@ public class PensionerDetailController {
 	}
 
 	@GetMapping
-	public List<PensionerDetails> getPensioners() {
+	public PensionersResult getPensioners() {
 		return pensionerDetailService.getPensioners();
 	}
 
 	@GetMapping({ "/{id}" })
-	public ResponseEntity<PensionerDetails> getPensionersById(@PathVariable String id) {
-		Optional<PensionerDetails> user = pensionerDetailService.getById(id);
-		return generateResponse(user);
+	public PensionerResult getPensionersById(@PathVariable String id) {
+		return pensionerDetailService.getById(id);
 	}
 
 	@ExceptionHandler(EmptyResultDataAccessException.class)
@@ -60,9 +57,4 @@ public class PensionerDetailController {
 	public Result deleteAll() {
 		return pensionerDetailService.deleteAllPensioners();
 	}
-
-	private ResponseEntity<PensionerDetails> generateResponse(Optional<PensionerDetails> user) {
-		return user.isPresent() ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
-
 }

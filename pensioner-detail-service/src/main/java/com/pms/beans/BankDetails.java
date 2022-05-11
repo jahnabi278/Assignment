@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "bankdetails")
 public class BankDetails {
-	@NotBlank(message = "bank name can not be empty")
-	private String bankName;
 	@Id
 	private String accountNumber;
+	@NotBlank(message = "bank name can not be empty")
+	private String bankName;
 	@Enumerated(EnumType.STRING)
 	private BankType banktype;
 
